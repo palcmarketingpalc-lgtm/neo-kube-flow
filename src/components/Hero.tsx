@@ -1,3 +1,31 @@
+import { useEffect, useState } from "react";
+
+const AnimatedCounter = ({ end, suffix = "", decimals = 0 }: { end: number; suffix?: string; decimals?: number }) => {
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    const duration = 2000;
+    const steps = 60;
+    const increment = end / steps;
+    const stepDuration = duration / steps;
+    
+    let current = 0;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else {
+        setCount(current);
+      }
+    }, stepDuration);
+    
+    return () => clearInterval(timer);
+  }, [end]);
+  
+  return <>{count.toFixed(decimals)}{suffix}</>;
+};
+
 export const Hero = () => {
   return (
     <section className="overflow-hidden pb-16 pt-20 sm:pt-28">
@@ -24,15 +52,15 @@ export const Hero = () => {
             </div>
             <div className="mt-10 grid grid-cols-2 gap-6 text-xs text-muted-foreground sm:grid-cols-4">
               <div>
-                <div className="text-foreground text-xl font-semibold">10x</div>
+                <div className="text-foreground text-xl font-semibold"><AnimatedCounter end={10} suffix="x" /></div>
                 Faster releases
               </div>
               <div>
-                <div className="text-foreground text-xl font-semibold">60%</div>
+                <div className="text-foreground text-xl font-semibold"><AnimatedCounter end={60} suffix="%" /></div>
                 Lower GPU cost
               </div>
               <div>
-                <div className="text-foreground text-xl font-semibold">99.9%</div>
+                <div className="text-foreground text-xl font-semibold"><AnimatedCounter end={99.9} suffix="%" decimals={1} /></div>
                 Uptime SLAs
               </div>
               <div>
