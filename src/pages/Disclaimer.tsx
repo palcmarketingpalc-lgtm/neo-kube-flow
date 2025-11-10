@@ -1,4 +1,4 @@
-import { Header } from "@/components/Header";
+import { MinimalHeader } from "@/components/MinimalHeader";
 import { Footer } from "@/components/Footer";
 
 export default function Disclaimer() {
